@@ -80,18 +80,18 @@
     <table style="margin-bottom: -80px;">
       <tr>
         <td>
-          <img src="hedelma-img/1eu.png" onclick="document.getElementById('panos').value = '1'" style="height: 80px;"
+          <img src="hedelma-img/1eu.png" onclick="data(1)" style="height: 80px;"
             alt="..." />
-          <img src="hedelma-img/2eu.png" onclick="document.getElementById('panos').value = '2'" style="height: 80px;"
+          <img src="hedelma-img/2eu.png" onclick="data(2)" style="height: 80px;"
             alt="..." />
-          <img src="hedelma-img/5eu.png" onclick="document.getElementById('panos').value = '5'" style="height: 80px;"
+          <img src="hedelma-img/5eu.png" onclick="data(5)" style="height: 80px;"
             alt="..." />
           <div class="row" style="margin-bottom: -80px;">
             <p>Saldo: <span id="saldo">100</span>€</p>
             <h2 style="color:yellow" id="gain"></h2>
           </div>
-          <div class="row" style="margin-bottom: -80px;">
-            <p>Panos: <input type="number" id="panos" value="1">€</p>
+          <div class="row" >
+            <p>Panos: <input type="number" id="panos" min="1" value="1">€</p>
           </div>
         </td>
         <td style=" padding: 20px;">
@@ -171,14 +171,15 @@
       firstHandle += 1;
       var btn = document.getElementById('btn');
       btn.src = 'hedelma-img/handleOn.png';
-      var audio = new Audio('hedelma-img/handle.mp3');
-      audio.play();
       setTimeout(function () {
         btn.src = 'hedelma-img/handleOff.png';
       }, 200);
       var panos = document.getElementById('panos').value;
       if (saldo < panos) {
-        alert('Ei tarpeeksi saldoa!');
+        document.getElementById('gain').innerHTML = "Ei tarpeeksi saldoa!";
+        return;
+      }else if(panos < 0){
+        document.getElementById('gain').innerHTML = "Minimissään 1€!";
         return;
       }
       saldo -= panos;
@@ -201,6 +202,8 @@
       } else {
         document.getElementById('gain').innerHTML = '';
       }
+      var audio = new Audio('hedelma-img/handle.mp3');
+      audio.play();
     }
 
     function laskeVoitto(panos) {
@@ -213,6 +216,9 @@
       else if (rullat.filter(x => x === '<img src="hedelma-img/7.png" style="height: 200px; " alt="..." />').length >= 3) voitto = 5 * panos;
       return voitto;
     }
+  function data(i){
+    document.getElementById('panos').value = i;
+  }
   </script>
 
 </body>
