@@ -145,10 +145,25 @@
     var rullat = [0, 0, 0, 0];
     var lukitutRullat = [false, false, false, false];
     var firstHandle = 0;
+    var lukittu = 0;
+
 
     function arvoKuva() {
       return kuvat[Math.floor(Math.random() * kuvat.length)];
     }
+
+
+
+function lukittuHae(arvo) {
+    for (var i = 0; i < arvo.length; i++) {
+        if (arvo[i] === true) {
+            lukittu += 1;
+            break;
+        }
+    }
+    return lukittu;
+}
+
 
     function lukitseRulla(rulla) {
       if (firstHandle > 0) {
@@ -168,6 +183,7 @@
     }
 
     function pyorita() {
+      lukittuHae(lukitutRullat);
       firstHandle += 1;
       var btn = document.getElementById('btn');
       btn.src = 'hedelma-img/handleOn.png';
@@ -204,6 +220,14 @@
       }
       var audio = new Audio('hedelma-img/handle.mp3');
       audio.play();
+      if (lukittu>0) {
+        for (var j = 0; j < lukitutRullat.length; j++){
+          lukitutRullat[j] = false;
+          document.getElementById('luki' + (j+1)).src = 'hedelma-img/unlocked.png';
+        }
+        lukittu=0;
+        return lukitutRullat;
+      }
     }
 
     function laskeVoitto(panos) {
